@@ -1,0 +1,29 @@
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+body {
+	margin-left : 250;
+	margin-right : 100;
+	background-color: LightGreen;
+}
+
+button {
+	background-color : SeaGreen;
+	color : white;
+}
+
+
+#map{
+	height: 500px;
+	width: 100%;
+	background-color: pink;
+	}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+    <title>Java connection</title>
+</head>
+  
+<body>
+    
+    <script type="text/javascript">
+       var params = ['15040 Conference Center Dr #210, Chantilly, VA, USA',
+            '1 center court, Cleveland, OH, USA; CLE',
+            'Nissan',
+            'Altima',
+            '2018',
+            'Regular',
+            '35'];
+	   var type = 'MOTOR_VEHICLE';
+	   
+	   
+	   
+	   <script>
+        function addData(){
+            try{
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4) {
+                        var data = xhr.responseText;
+                        alert(data);
+                    }
+                }
+                xhr.open('GET', 'webConnAPI', true);
+                xhr.send(null);
+            }catch(Excetpion){
+                alert('didnt work');
+            }
+        }
+</script>
+    </script>
+</body>
+  
+</html>

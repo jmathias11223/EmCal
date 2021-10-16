@@ -1,0 +1,147 @@
+<!doctype html>
+
+<html>
+<head>
+	<title>Travel Options</title>
+	<link rel="stylesheet" type"text/css" href="style.css"/>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6TCRxcaCQm7OxCjJH8pEXtZhL1-MH0g0&callback=initMap">
+	</script>
+	<script>
+		function calcRoute() {
+			var selectedMode = document.getElementById('mode').value;
+			var request = {
+				origin: initial,
+				destination: destination,
+				travelMode: google.maps.TravelMode[selectedMode]
+			};
+			directionsService.route(request, function(response, status) {
+				if (status == 'OK') {
+					directionsRenderer.setDirections(response);
+				}
+			});
+		}
+		
+		function backToEntry(){
+			window.location.href = 'EntryPage.html';
+		}
+
+
+		var carCostSrc = 0.33;
+		var carCostDest = 0.34;
+		var carCarbonCost = 1040;
+		var carTime = '9 mins';
+		var walkCarbonCost = 85.19;
+		var walkCalories = 243.41;
+		var walkTime = '51 mins';
+		var bikeCarbonCost = 80.18;
+		var bikeCalories = 229.09;
+		var bikeTime = '16 mins';
+		var airCost = 50;
+		var airCarbonCost = 60;
+		var airTime = '50 minutes';
+	</script>
+	
+</head>
+<body>
+	
+	<div class="row">
+		<div class="column" id="drive" style="background-color:PowderBlue"><h3>Drive</h3>
+			<p id='carCarbonCost'></p>
+			<p id='costCar'></p>
+			<p id='carTime'></p>
+			<p>This will burn 0 calories</p>
+			<script> document.getElementById('costCar').innerHTML = 'The trip will cost either $'+carCostSrc+' or $'+
+				carCostDest+' if you fill up gas at your start location or destination, respectively.';
+				document.getElementById('carCarbonCost').innerHTML = 'The <b>carbon cost</b> is '+carCarbonCost+' pounds';
+				document.getElementById('carTime').innerHTML = 'The trip will take '+carTime; </script>
+			<button onclick="choose()">Choose Driving</button>
+		</div>
+		<div class="column" id="walk" style="background-color:PowderBlue"><h3>Walk</h3>
+			<p id='walkCarbonCost'></p>
+			<p>The <b>cost</b> is $0</p>
+			<p id='walkTime'></p>
+			<p id='walkCalories'></p>
+			<script> document.getElementById('walkCalories').innerHTML = 'This will burn '+walkCalories+' calories';
+				document.getElementById('walkCarbonCost').innerHTML = 'The <b>carbon cost</b> is '+walkCarbonCost+' pounds';
+				document.getElementById('walkTime').innerHTML = 'The trip will take '+carTime;</script>
+			<button onclick="choose()">Choose Walking</button>
+		</div>
+		<div class="column" id="bike" style="background-color:PowderBlue"><h3>Bike</h3>
+			<p id='bikeCarbonCost'></p>
+			<p>The <b>cost</b> is $0</p>
+			<p id='bikeTime'></p>
+			<p id='bikeCalories'></p>
+			<script> document.getElementById('bikeCalories').innerHTML = 'This will burn '+bikeCalories+' calories';
+				document.getElementById('bikeCarbonCost').innerHTML = 'The <b>carbon cost</b> is '+bikeCarbonCost+' pounds';
+				document.getElementById('bikeTime').innerHTML = 'The trip will take '+bikeTime;</script>
+			<button onclick="choose()">Choose Biking</button>
+		</div>
+		<!-- <div class="column" id="transit" style="background-color:PowderBlue"><h3>Public Transit</h3>
+			<p>The cost is $_</p>
+			<p>The trip will take _ hours and _ min</p>
+			<p>The carbon cost is _ pounds</p>
+			<p>This will burn _ calories</p>
+			<button onclick="choose()">Choose Transit</button>
+		</div> -->
+		<div class="column" id="fly" style="background-color:PowderBlue"><h3>Fly</h3>
+			<p id='airCarbonCost'></p>
+			<p id='airCost'></p>
+			<p id='airTime'></p>
+			<p>This will burn 0 calories</p>
+			<script> document.getElementById('airCost').innerHTML = 'The <b>cost</b> is $'+airCost;
+				document.getElementById('airCarbonCost').innerHTML = 'The <b>carbon cost</b> is '+airCarbonCost+' pounds';
+				document.getElementById('airTime').innerHTML = 'The trip will take '+airTime;</script>
+			<button onclick="choose()">Choose Flying</button>
+		</div>
+	</div>
+	
+	<script>
+		var distance = 40.0;
+		function choose() {
+			var choice = 0;
+		}
+			
+		if (distance > 50.0){
+			document.getElementById('walk').style.display = "none";
+		}
+		if (distance > 125.0){
+			document.getElementById('bike').style.display = "none";
+		}
+		if (distance < 50.0){
+			document.getElementById('fly').style.display = "none";
+		}
+
+		let map;
+		var initial = null;
+		var destination = null;
+		var directionsService;
+		var directionsRenderer;	
+		function initMap() {
+			directionsService = new google.maps.DirectionsService();
+			directionsRenderer = new google.maps.DirectionsRenderer();
+			initial = new google.maps.LatLng(37.7699298, -122.4469157);
+			destination = new google.maps.LatLng(37.7683909618184, -122.51089453697205);
+			var mapOptions = {
+				zoom: 14,
+				center: initial
+			};
+			var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+			directionsRenderer.setMap(map);
+		}
+	</script>
+	<hr>
+	<br>
+	<div>
+		<strong>Mode of Travel: </strong>
+		<select id="mode" onchange="calcRoute();">
+			<option value="DRIVING">Driving</option>
+			<option value="WALKING">Walking</option>
+			<option value="BICYCLING">Bicycling</option>
+			<!-- <option value="TRANSIT">Transit</option> -->
+		</select>
+	</div>
+
+	<div id="map"></div>
+	<button id='back' onclick='backToEntry()'>Enter different info</button>
+</body>
+</body>

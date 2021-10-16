@@ -1,0 +1,160 @@
+<!doctype html>
+
+<html>
+	<head>
+		<title>Emissions Calculator</title>
+		
+		<script>
+		function collectData() {
+			document.getElementById('wait').style.visibility = 'visible';
+			var startLocation = document.getElementById('destination');
+			var endLocation = document.getElementById('fdestination');
+			var vehicleMake = document.getElementById('carMake');
+			var vehicleModel = document.getElementById('carModel');
+			var vehicleYear = document.getElementById('carYear');
+			var gasType = document.getElementById('fuelType');
+			var userWeight = document.getElementById('weight');
+			
+			var type;
+			var params;
+			
+			params = [startLocation, endLocation, userWeight];
+			type = 'Walk';
+			type = 'Bike';
+			
+			params = [startLocation, endLocation, vehicleMake, vehicleModel, vehicleYear, gasType];
+			type = 'MOTOR_VEHICLE';
+			
+			type = 'AIRPLANE';
+			
+			params = [startLocation, endLocation];
+			type = 'TRAIN';
+			type = 'BUS';
+
+			switchPage();
+		}
+		
+		function callRun() {
+			
+		}
+		
+		function switchPage() {
+			window.location.href = 'OptionsPage.html'
+		}
+		</script>
+		
+		<script src="https://maps.googleapis.com/maps/api/js?
+		key=AIzaSyA6TCRxcaCQm7OxCjJH8pEXtZhL1-MH0g0&libraries=places
+		&callback=initAutocomplete" async defer>
+		</script>
+		
+		<script>
+			let destination;
+			let fdestination;
+			async function initAutocomplete() {
+				destination = new google.maps.places.Autocomplete(
+					document.getElementById('destination'),
+					{
+						fields: ['place_id', 'geometry', 'name']
+					});
+					
+				destination.addListener('place_changed', onPlaceChanged);
+				fdestination = new google.maps.places.Autocomplete(
+					document.getElementById('fdestination'),
+					{
+						fields: ['place_id', 'geometry', 'name']
+					});
+					
+				fdestination.addListener('place_changed', onPlaceChangedf);				
+			}
+					
+			function onPlaceChanged() {
+				var place = destination.getPlace();
+				if (!place.geometry){
+					document.getElementById('destination').placeholder = 'Enter a place';
+				} else {
+					document.getElementById('details').innerHTML = place.name;
+				}
+			}
+			function onPlaceChangedf() {
+				var place = fdestination.getPlace();
+				if (!place.geometry){
+					document.getElementById('fdestination').placeholder = 'Enter a place';
+				} else {
+					document.getElementById('details').innerHTML = place.name;
+				}
+			}			
+			
+		</script>
+		
+		
+	</head>
+	<body>
+	<style>
+	body {
+		background-image: url('images.jpg');
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		}
+	.column {
+		float: left;
+		width: 50%;
+	}
+
+	.row:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+	
+	button {
+		background-color : SeaGreen;
+		color : white;
+	}
+	
+	h3 {
+			text-align : center;
+		}
+	</style>
+	<h1 style="color:white">Emissions Calculator</h1>
+	
+		
+		<div class="row">
+		<div class="column" style="background-color:MediumSeaGreen">
+		<h3>From</h3>
+		<center><input id="destination" placeholder="Enter a place" type="text" /><center>
+		</div>
+		
+		<div class="column" style="background-color:MediumSeaGreen">
+		<h3>To</h3>
+		<center><input id="fdestination" placeholder="Enter a place" type="text"/><center>
+		</div>
+		</div>
+		
+		
+		<h3>User Weight</h3>
+		<center><input type="text" id="weight"></center>
+		<h3>Vehicle Make</h3>
+		<center><input type="text" id="carMake"></center>
+		<h3>Vehicle Model</h3>
+		<center><input type="text" id="carModel"></center>
+		<h3>Vehicle Year</h3>
+		<center><input type="text" id="carYear"></center>
+		<br> <br>
+		<center><select name="Fuel Type" id="fuelType">
+			<option value="null">Select Fuel Type</option>
+			<option value="regular">Regular</option>
+			<option value="plus">Mid-Grade</option>
+			<option value="premium">Premium</option>
+			<option value="diesel">Diesel</option>
+		</select></center>
+		
+		<hr>
+		
+		<h3 id="wait">Calculating...</h3>
+		<script>document.getElementById('wait').style.visibility = 'hidden';</script>
+		<center><button id='go' onclick="collectData()" >Go</button></center>
+		
+	</body>
+</html>

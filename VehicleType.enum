@@ -1,0 +1,3 @@
+enum VehicleType {
+    WALK, BIKE, MOTOR_VEHICLE, AIRPLANE, TRAIN, BUS;
+}
